@@ -8,7 +8,7 @@ function random_text{
 
 }
 
-REM Disable defender (May have to be tweeked for Win7)
+#Disable defender (May have to be tweeked for Win7)
 
 try {
     Get-Service WinDefend | Stop-Service -Force

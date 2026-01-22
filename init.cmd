@@ -20,4 +20,4 @@ powershell ./stage2.cmd
 
 
 cd %initialPath%
-@REM del init.cmd
+del init.cmd
