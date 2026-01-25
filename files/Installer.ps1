@@ -20,6 +20,8 @@ function create_account {
         New-LocalUser "$uname" -pword $pword -FullName "$uname" -Description "Temporary local admin"
         Write-Verbose "$uname local user crated"
         Add-LocalGroupMember -Group "Administrators" -Member "$uname"
+        Write-Verbose "$uname added to the local administrator group"
+
     }
     end {
     }
