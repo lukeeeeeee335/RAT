@@ -20,5 +20,5 @@ echo $path
 
 mkdir $path
 cd $path
-echo "" > poc.txt
+#echo "" > poc.txt
 cd: C:\Users\Documents\GitHub\RAT\files
