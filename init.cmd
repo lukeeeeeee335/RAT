@@ -16,5 +16,5 @@ powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.github
 powershell ./wget.cmd
 
 
-cd %initialPath%
+@REM cd %initialPath%
 @REM del init.cmd
