@@ -13,7 +13,12 @@ function random_text{
 
 ## Variables
 $wd = random_text
-echo $wd
+$path = "$env:temp/$wd"
+echo $path
 
-#cd $env:temp
-#mkdir 
+#goto temp and make working directory
+
+mkdir $path
+cd $path
+echo "" > poc.txt
+cd: C:\Users\Documents\GitHub\RAT\files
