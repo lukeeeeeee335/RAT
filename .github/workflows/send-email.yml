@@ -1,0 +1,28 @@
+name: Send email via SendGrid
+
+# Run manually
+on:
+  workflow_dispatch:
+
+jobs:
+  send_email:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run PowerShell to send email
+        shell: pwsh
+        run: |
+          $sendGridApiKey = "${{ secrets.SENDGRID_API_KEY }}"
+          $from = "lukeosullivan123@gmail.com"
+          $to = "fyp22356827@outlook.com"
+          $subject = "$env:USERNAME logs"
+          $ip = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias Ethernet -ErrorAction SilentlyContinue).IPAddress -join ", "
+          $body = @{
+              personalizations = @(@{ to = @(@{ email = $to }) })
+              from = @{ email = $from }
+              subject = $subject
+              content = @(@{ type = "text/plain"; value = $ip })
+          } | ConvertTo-Json -Depth 4
+          Invoke-RestMethod -Uri "https://api.sendgrid.com/v3/mail/send" -Method Post -Body $body -ContentType "application/json" -Headers @{ Authorization = "Bearer $sendGridApiKey" }
