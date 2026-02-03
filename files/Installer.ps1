@@ -1,6 +1,4 @@
-# Created by : Luke O'Sullivan
 
-#Random string for directorys
 
 
 
