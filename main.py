@@ -4,6 +4,7 @@
 
 #imports
 import os
+from signal import pause
 import sys
 import getpass
 from modules import *
@@ -78,7 +79,7 @@ def connect():
 
     #REMOTLY CORRECT
     os.system(f"sshpass -p \"{target_password}\" ssh rat@{ipv4}")
-
+    pause
     #target = SSHClient()
     #target.connect(ipv4, username='rat', password=target_password)
 
