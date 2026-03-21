@@ -182,7 +182,11 @@ def cli(arguments):
         elif option =="2":
             get_keylogger(address, target_password, working_dir)
 
-
+        elif option =="3":
+            os.chdir("/home/kali/Downloads")
+            with open("lukee.log", "r") as f:
+                content = f.read()
+            print(content)
 
 
 

