@@ -188,7 +188,7 @@ def cli(arguments):
             # Check if file exists first
             if os.path.exists(file_path):
                 try:
-                    with open(file_path, "r") as f:
+                    with open(file_path, "r", encoding="utf-16") as f:
                         content = f.read()
                     print("===== File Content =====")
                     print(content)
