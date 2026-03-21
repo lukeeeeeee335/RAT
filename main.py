@@ -183,10 +183,20 @@ def cli(arguments):
             get_keylogger(address, target_password, working_dir)
 
         elif option =="3":
-            os.chdir("/home/kali/Downloads")
-            with open("lukee.log", "r") as f:
-                content = f.read()
-            print(content)
+            file_path = "/home/kali/Downloads/lukee.log"
+    
+            # Check if file exists first
+            if os.path.exists(file_path):
+                try:
+                    with open(file_path, "r") as f:
+                        content = f.read()
+                    print("===== File Content =====")
+                    print(content)
+                    print("=======================")
+                except Exception as e:
+                    print("Error reading file:", e)
+            else:
+                print("File does not exist at:", file_path)
 
 
 
