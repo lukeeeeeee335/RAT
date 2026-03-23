@@ -47,6 +47,7 @@ options_menu = """
             [0] Remote Console
             [1] Keylogger
             [2] Get Keylogger Logs
+            [3] Print Downloaded Log
 
 """
 
